@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %title= "#{t 'service_name'}"
+  %body
+    %table
+      %tbody
+        - @envs.each do |key,value|
+          %tr
+            %th= key
+            %td= value

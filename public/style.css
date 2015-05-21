@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+body {
+  font-size: 15px;
+}
+
+h2 {
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+.table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  word-break: break-all;
+}
+
+@media screen and (max-width:767px) {
+  body {
+    font-size: 18px;
+  }
+
+  h2 {
+    margin-bottom: 1em;
+  }
+
+  .table:last-of-type {
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .table > tbody > tr > th,
+  .table > tbody > tr > td {
+    display: block;
+    margin-bottom: .5em;
+    padding: 0;
+    border: none;
+    background-color: none;
+  }
+
+  .table > tbody > tr > td {
+    margin-bottom: 1em;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: inherit;
+  }
+}

@@ -1,0 +1,37 @@
+!!!
+%html
+  %head
+    %title= "#{t 'service_name'} | #{t 'service_description'}"
+    %meta{name: 'viewport', content: 'width=device-width,initial-scale=1'}
+    %link{rel: 'stylesheet', href: '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'}
+    %link{rel: 'stylesheet', href: '/style.css'}
+  %body
+    #main
+      .container
+        %h1.page-header= t 'service_name'
+        = yield
+    %hr
+    %footer#footer
+      .container
+        %ul.list-inline
+          %li
+            %a{href: '/'} Home
+          %li ·
+          %li
+            %a{href: '/json'} for JSON
+          %li ·
+          %li
+            %a{href: '/xml'} for XML
+          %li ·
+          %li
+            %a{href: '/plain_text'} for Plain Text
+          %li ·
+          %li
+            %a{href: '/plain_html'} for Plain HTML
+          %li ·
+          %li
+            %a{href: 'https://github.com/dounokouno/ENV-Man', target: '_blank'}
+              Github
+              %span.glyphicon.glyphicon-new-window
+    %script{src: '//code.jquery.com/jquery-2.1.4.min.js'}
+    %script{src: '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'}

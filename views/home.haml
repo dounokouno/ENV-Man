@@ -1,0 +1,14 @@
+%h2= "#{t 'request_informations'}"
+%table.table.table-striped.table-hover
+  %tbody
+    - @envs[:browsers].each do |key,value|
+      %tr
+        %th{width: 240}= key
+        %td= value
+%h2= "#{t 'server_informations'}"
+%table.table.table-striped.table-hover
+  %tbody
+    - @envs[:servers].each do |key,value|
+      %tr
+        %th{width: 240}= key
+        %td= value
