@@ -5,6 +5,8 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'rack/contrib'
 
+set :haml, escape_html: true
+
 before do
   I18n::Backend::Simple.send :include, I18n::Backend::Fallbacks
   I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
