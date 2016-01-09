@@ -1,5 +1,6 @@
 en:
   service_name: 'ENV Man'
   service_description: 'If you see the environment variables, such as browser version'
+  local_informations: 'Local Informations'
   request_informations: 'Request informations'
   server_informations: 'Server informations'
