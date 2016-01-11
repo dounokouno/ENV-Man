@@ -17,7 +17,6 @@ before do
 end
 
 get '/' do
-  @locals = locals
   @envs = envs
   haml :home
 end
@@ -58,10 +57,12 @@ get '/about_ja' do
 end
 
 def envs
-  hash = {}
-  hash[:values] = {}
-  hash[:browsers] = {}
-  hash[:servers] = {}
+  hash = {
+    values: {},
+    browsers: {},
+    servers: {},
+    locals:{}
+  }
 
   env.each do |key,value|
     if key =~ /[A-Z]/ && key !~ /password/i
@@ -75,6 +76,9 @@ def envs
     end
   end
 
+  hash[:values]["HOSTNAME"] = hash[:locals]["HOSTNAME"] = Socket.gethostname
+  hash[:values]["LOCAL_IP"] = hash[:locals]["LOCAL_IP"] = IPSocket.getaddress(Socket.gethostname)
+
   hash[:values] = hash[:values].sort
   hash[:browsers] = hash[:browsers].sort
   hash[:servers] = hash[:servers].sort
@@ -86,13 +90,4 @@ helpers do
   def t *args
     I18n.t *args
   end
-end
-
-def locals
-  hash = {}
-  hash[:locals] = {}
-  hash[:locals]["HOSTNAME"] = Socket.gethostname
-  hash[:locals]["LOCAL_IP"] = IPSocket.getaddress(Socket.gethostname)
-
-  hash
 end
