@@ -1,5 +1,6 @@
 ja:
   service_name: 'ENVマン'
   service_description: 'ブラウザバージョンなどの環境変数を表示'
+  local_informations: 'ローカル情報'
   request_informations: 'リクエスト送信情報'
   server_informations: 'サーバー情報'

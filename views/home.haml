@@ -1,3 +1,10 @@
+%h2= "#{t 'local_informations'}"
+%table.table.table-striped.table-hover
+  %tbody
+    - @locals[:locals].each do |key,value|
+      %tr
+        %th{width: 240}= key
+        %td= value
 %h2= "#{t 'request_informations'}"
 %table.table.table-striped.table-hover
   %tbody

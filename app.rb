@@ -4,6 +4,7 @@ require 'haml'
 require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'rack/contrib'
+require 'socket'
 
 set :haml, escape_html: true
 
@@ -16,6 +17,7 @@ before do
 end
 
 get '/' do
+  @locals = locals
   @envs = envs
   haml :home
 end
@@ -84,4 +86,13 @@ helpers do
   def t *args
     I18n.t *args
   end
+end
+
+def locals
+  hash = {}
+  hash[:locals] = {}
+  hash[:locals]["HOSTNAME"] = Socket.gethostname
+  hash[:locals]["LOCAL_IP"] = IPSocket.getaddress(Socket.gethostname)
+
+  hash
 end
