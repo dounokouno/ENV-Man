@@ -1,19 +1,19 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.0.3.1)
+    activesupport (6.0.3.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
-    backports (3.15.0)
+    backports (3.18.1)
     builder (3.2.4)
     concurrent-ruby (1.1.6)
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
@@ -21,12 +21,12 @@ GEM
     multi_json (1.14.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-contrib (2.2.0)
       rack (~> 2.0)
     rack-protection (2.0.8.1)
       rack
-    ruby2_keywords (0.0.1)
+    ruby2_keywords (0.0.2)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
