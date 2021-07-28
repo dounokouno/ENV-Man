@@ -9,7 +9,7 @@ GEM
       zeitwerk (~> 2.3)
     builder (3.2.4)
     concurrent-ruby (1.1.9)
-    haml (5.2.1)
+    haml (5.2.2)
       temple (>= 0.8.0)
       tilt
     i18n (1.8.10)
