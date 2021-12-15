@@ -41,6 +41,7 @@ GEM
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    webrick (1.7.0)
     zeitwerk (2.5.1)
 
 PLATFORMS
@@ -56,6 +57,7 @@ DEPENDENCIES
   rack-contrib
   sinatra
   sinatra-contrib
+  webrick
 
 RUBY VERSION
    ruby 3.0.3p157
