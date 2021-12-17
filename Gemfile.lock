@@ -14,7 +14,7 @@ GEM
       tilt
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.11.3)
+    jbuilder (2.11.4)
       activesupport (>= 5.0.0)
     minitest (5.15.0)
     multi_json (1.15.0)
