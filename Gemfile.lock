@@ -16,7 +16,7 @@ GEM
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     erubi (1.11.0)
-    haml (6.0.3)
+    haml (6.0.4)
       temple (>= 0.8.2)
       thor
       tilt
