@@ -1,12 +1,10 @@
 # ENV Man
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
 You can see the request or server environment variables, such as browser version.
 
 ## Instration
 
-### ex.
+### e.g.
 
 ```
 $ git clone git@github.com:dounokouno/ENV-Man.git
@@ -15,7 +13,7 @@ $ bundle install --path=vendor/bundle
 
 ## Start app
 
-### ex. localhost
+### e.g. localhost
 
 ```
 $ bundle exec rackup
