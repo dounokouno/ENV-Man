@@ -56,6 +56,9 @@ GEM
       rack (>= 3.0.0, < 4)
     rack-session (2.0.0)
       rack (>= 3.0.0)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -93,8 +96,8 @@ DEPENDENCIES
   haml
   i18n
   jbuilder
-  rack
   rack-contrib
+  rackup
   sinatra
   sinatra-contrib
   webrick
