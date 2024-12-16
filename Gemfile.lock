@@ -1,13 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actionview (8.0.0.1)
-      activesupport (= 8.0.0.1)
+    actionview (8.0.1)
+      activesupport (= 8.0.1)
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activesupport (8.0.0.1)
+    activesupport (8.0.1)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -38,7 +38,7 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    logger (1.6.2)
+    logger (1.6.3)
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
