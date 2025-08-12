@@ -35,7 +35,7 @@ GEM
       tilt
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.14.0)
+    jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     logger (1.7.0)
