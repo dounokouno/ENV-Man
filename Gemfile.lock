@@ -28,7 +28,7 @@ GEM
     crass (1.0.6)
     drb (2.2.3)
     erubi (1.13.1)
-    haml (7.1.0)
+    haml (7.2.0)
       temple (>= 0.8.2)
       thor
       tilt
@@ -88,8 +88,8 @@ GEM
       sinatra (= 4.2.1)
       tilt (~> 2.0)
     temple (0.10.4)
-    thor (1.4.0)
-    tilt (2.6.1)
+    thor (1.5.0)
+    tilt (2.7.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uri (1.1.1)
