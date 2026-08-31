@@ -28,7 +28,7 @@ GEM
     crass (1.0.7)
     drb (2.2.3)
     erubi (1.13.1)
-    haml (7.4.1)
+    haml (7.5.0)
       prism (>= 1.1.0)
       temple (>= 0.8.2)
       thor
