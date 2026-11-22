@@ -1,0 +1,107 @@
+name: Auto Update Ruby & Bundler
+
+on:
+  schedule:
+    # Run daily at 20:00 UTC (05:00 JST)
+    - cron: '20 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Check latest Ruby and Bundler versions
+        id: check_versions
+        run: |
+          CURRENT_RUBY=$(cat .ruby-version | tr -d '[:space:]')
+          CURRENT_BUNDLER=$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1 | tr -d '[:space:]')
+
+          # Fetch latest stable Ruby version from official ruby-lang.org downloads list
+          LATEST_RUBY=$(curl -sSL https://raw.githubusercontent.com/ruby/www.ruby-lang.org/master/_data/downloads.yml | awk '/stable:/{flag=1; next} flag && /^[ ]*- /{print $2; exit}')
+          # Fetch latest Bundler version from RubyGems API
+          LATEST_BUNDLER=$(curl -sSL https://rubygems.org/api/v1/versions/bundler/latest.json | jq -r .version)
+
+          echo "current_ruby=$CURRENT_RUBY" >> "$GITHUB_OUTPUT"
+          echo "latest_ruby=$LATEST_RUBY" >> "$GITHUB_OUTPUT"
+          echo "current_bundler=$CURRENT_BUNDLER" >> "$GITHUB_OUTPUT"
+          echo "latest_bundler=$LATEST_BUNDLER" >> "$GITHUB_OUTPUT"
+
+          NEED_UPDATE="false"
+          if [ "$CURRENT_RUBY" != "$LATEST_RUBY" ] || [ "$CURRENT_BUNDLER" != "$LATEST_BUNDLER" ]; then
+            NEED_UPDATE="true"
+          fi
+          echo "need_update=$NEED_UPDATE" >> "$GITHUB_OUTPUT"
+
+          echo "Current: Ruby $CURRENT_RUBY, Bundler $CURRENT_BUNDLER"
+          echo "Latest:  Ruby $LATEST_RUBY, Bundler $LATEST_BUNDLER"
+          echo "Need update: $NEED_UPDATE"
+
+      - name: Setup Ruby for update
+        if: steps.check_versions.outputs.need_update == 'true'
+        uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1
+        with:
+          ruby-version: ${{ steps.check_versions.outputs.latest_ruby }}
+          bundler: ${{ steps.check_versions.outputs.latest_bundler }}
+
+      - name: Update versions and lockfile
+        if: steps.check_versions.outputs.need_update == 'true'
+        run: |
+          LATEST_RUBY="${{ steps.check_versions.outputs.latest_ruby }}"
+          echo "$LATEST_RUBY" > .ruby-version
+          bundle lock --add-checksums
+
+      - name: Create or update Pull Request
+        if: steps.check_versions.outputs.need_update == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="automation/update-ruby-bundler"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -B "$BRANCH"
+          git add .ruby-version Gemfile.lock
+
+          if git diff --staged --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          LATEST_RUBY="${{ steps.check_versions.outputs.latest_ruby }}"
+          LATEST_BUNDLER="${{ steps.check_versions.outputs.latest_bundler }}"
+          CURRENT_RUBY="${{ steps.check_versions.outputs.current_ruby }}"
+          CURRENT_BUNDLER="${{ steps.check_versions.outputs.current_bundler }}"
+
+          COMMIT_MSG="⬆️ Bump Ruby to ${LATEST_RUBY} and Bundler to ${LATEST_BUNDLER}"
+          git commit -m "$COMMIT_MSG"
+          git push -u origin "$BRANCH" --force
+
+          PR_TITLE="⬆️ Update Ruby to ${LATEST_RUBY} and Bundler to ${LATEST_BUNDLER}"
+          PR_BODY=$(cat <<EOF
+          ## Summary
+          - **Ruby**: \`${CURRENT_RUBY}\` -> \`${LATEST_RUBY}\`
+          - **Bundler**: \`${CURRENT_BUNDLER}\` -> \`${LATEST_BUNDLER}\`
+          - Automatically update checksum pinning with \`bundle lock --add-checksums\`
+
+          ## Automation
+          This PR was automatically created by the \`auto-update-ruby-bundler\` GitHub Actions workflow.
+          EOF
+          )
+
+          # Update existing PR if found, otherwise create a new PR
+          EXISTING_PR=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$EXISTING_PR" ]; then
+            gh pr edit "$EXISTING_PR" --title "$PR_TITLE" --body "$PR_BODY"
+            echo "Updated existing PR #$EXISTING_PR"
+          else
+            gh pr create --title "$PR_TITLE" --body "$PR_BODY" --head "$BRANCH" --base master
+          fi
