@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1
+        with:
+          bundler-cache: true
+
+      - name: Run tests
+        run: |
+          bundle exec ruby -c app.rb
+          bundle exec ruby -e "
+          require './app'
+          request = Rack::MockRequest.new(Sinatra::Application)
+          ['/', '/json', '/xml', '/plain_text', '/plain_html'].each do |path|
+            res = request.get(path)
+            puts \"#{path}: status=#{res.status}\"
+            raise \"Failed #{path}\" unless res.status == 200
+          end
+          puts 'All endpoints verified successfully!'
+          "
